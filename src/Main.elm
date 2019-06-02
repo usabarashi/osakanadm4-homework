@@ -52,13 +52,8 @@ subscriptions model =
 view : MainModel.Model -> Html MainMsg.Msg
 view model =
     let
+        headerAttribute : List (Attribute msg)
         headerAttribute =
-            handler :: headerCss
-
-        handler =
-            onClick (MainMsg.MapToPhotoQuery PhotoQueryMsg.GetRequest)
-
-        headerCss =
             [ style "position" "fixed"
             , style "top" "0"
             , style "left" "0"
@@ -78,12 +73,6 @@ view model =
             , style "margin" "0"
             ]
 
-        photoAttribute : List (Attribute msg)
-        photoAttribute =
-            [ style "width" "500px"
-            , style "margin" "65px auto"
-            ]
-
         photoViews : List Photo -> Html MainMsg.Msg
         photoViews photos =
             let
@@ -91,7 +80,13 @@ view model =
                 mappedPhotoViews =
                     Reference.top photos
                         |> Reference.List.unwrap mappedPhotoView
-                        |> div photoAttribute
+                        |> div photosAttribute
+
+                photosAttribute : List (Attribute msg)
+                photosAttribute =
+                    [ style "width" "500px"
+                    , style "margin" "65px auto"
+                    ]
 
                 mappedPhotoView : Reference Photo (List Photo) -> Html MainMsg.Msg
                 mappedPhotoView refPhoto =
