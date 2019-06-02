@@ -28,7 +28,6 @@ osakanagramを起動する.
 ※ elmがインストールされている前提 
 
 ```sh
-elm install
 elm reactor --port 3000
 ```
 ブラウザで http://localhost:3000/src/Main.elm にアクセスする.
