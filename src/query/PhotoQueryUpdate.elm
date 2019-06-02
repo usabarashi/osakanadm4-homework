@@ -11,8 +11,8 @@ update msg =
         GetRequest ->
             ( [], PhotoApi.get )
 
-        GetResponse (Ok foundPhoto) ->
-            ( foundPhoto, Cmd.none )
+        GetResponse (Ok gotPhotos) ->
+            ( gotPhotos, Cmd.none )
 
         GetResponse (Err _) ->
             -- Error握りつぶしたらあかんで
