@@ -1,4 +1,4 @@
-module Domain.Photo.PhotoMsg exposing (Msg(..))
+module Domain.PhotoMsg exposing (Msg(..))
 
 
 type Msg

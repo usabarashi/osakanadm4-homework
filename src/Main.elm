@@ -1,13 +1,13 @@
 module Main exposing (init, main, subscriptions, view)
 
-import Adapter.View.Photo.PhotoView as PhotoView exposing (..)
 import Browser
-import Domain.Photo.Photo as Photo exposing (..)
+import Domain.Photo as Photo exposing (Photo)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Model as MainModel exposing (Model, create)
 import Msg as MainMsg exposing (..)
+import Page.Photo
 import Query.PhotoQueryMsg as PhotoQueryMsg exposing (..)
 import Query.PhotoQueryUpdate as PhotoQueryUpdate exposing (update)
 import Reference exposing (Reference)
@@ -91,7 +91,7 @@ view model =
                 mappedPhotoView : Reference Photo (List Photo) -> Html MainMsg.Msg
                 mappedPhotoView refPhoto =
                     Reference.this refPhoto
-                        |> PhotoView.view
+                        |> Page.Photo.view
                         |> Html.map (MainMsg.MapToPhoto refPhoto)
             in
             mappedPhotoViews

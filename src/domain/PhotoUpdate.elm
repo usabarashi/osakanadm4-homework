@@ -1,7 +1,7 @@
-module Domain.Photo.PhotoUpdate exposing (update)
+module Domain.PhotoUpdate exposing (update)
 
-import Domain.Photo.Photo as Photo exposing (..)
-import Domain.Photo.PhotoMsg as PhotoMsg exposing (..)
+import Domain.Photo as Photo exposing (Photo)
+import Domain.PhotoMsg as PhotoMsg exposing (..)
 
 
 update : Msg -> Photo -> ( Photo, Cmd PhotoMsg.Msg )
