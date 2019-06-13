@@ -1,4 +1,4 @@
-module Domain.Favorite.Favorite exposing (Favorite, FavoriteColor, FavoriteCount, FavoriteIcon, countUp, create)
+module Domain.Favorite exposing (Favorite, FavoriteColor, FavoriteCount, FavoriteIcon, countUp, create)
 
 
 type alias Favorite =

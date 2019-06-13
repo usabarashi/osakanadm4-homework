@@ -1,7 +1,7 @@
 module Update exposing (update)
 
-import Domain.Photo.Photo as Photo exposing (..)
-import Domain.Photo.PhotoUpdate as PhotoUpdate exposing (..)
+import Domain.Photo as Photo exposing (..)
+import Domain.PhotoUpdate as PhotoUpdate exposing (..)
 import Model as MainModel exposing (Model)
 import Msg as MainMsg exposing (..)
 import Query.PhotoQueryUpdate as PhotoQueryUpdate exposing (..)
@@ -12,7 +12,7 @@ import Reference.List
 update : MainMsg.Msg -> MainModel.Model -> ( MainModel.Model, Cmd MainMsg.Msg )
 update msg model =
     case msg of
-        -- Domain
+        -- View
         MainMsg.MapToPhoto refPhoto photoMsg ->
             let
                 ( resultPhoto, resultCmd ) =

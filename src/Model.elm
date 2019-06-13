@@ -1,6 +1,6 @@
 module Model exposing (Model, create)
 
-import Domain.Photo.Photo exposing (..)
+import Domain.Photo as Phohto exposing (Photo)
 
 
 type alias Model =

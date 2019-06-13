@@ -1,6 +1,6 @@
-module Domain.Photo.Photo exposing (Photo, PhotoImage, PhotoTitle, countUpFavorite, create)
+module Domain.Photo exposing (Photo, PhotoImage, PhotoTitle, countUpFavorite, create)
 
-import Domain.Favorite.Favorite as Favorite exposing (Favorite, countUp, create)
+import Domain.Favorite as Favorite exposing (Favorite)
 
 
 type alias Photo =

@@ -1,19 +1,20 @@
 module Query.PhotoQueryUpdate exposing (update)
 
-import Adapter.Infrastructure.OsakanadmApi.PhotoApi as PhotoApi exposing (..)
-import Domain.Photo.Photo as Photo exposing (..)
-import Query.PhotoQueryMsg as QueryMsg exposing (..)
+import Adapter.OsakanadmApi
+import Domain.Photo as Photo exposing (Photo)
+import Query.PhotoQueryMsg
+import Task
 
 
-update : Msg -> ( List Photo, Cmd QueryMsg.Msg )
+update : Query.PhotoQueryMsg.Msg -> ( List Photo, Cmd Query.PhotoQueryMsg.Msg )
 update msg =
     case msg of
-        GetRequest ->
-            ( [], PhotoApi.get )
+        Query.PhotoQueryMsg.GetRequest ->
+            ( [], Task.attempt Query.PhotoQueryMsg.GetResponse <| Adapter.OsakanadmApi.get )
 
-        GetResponse (Ok gotPhotos) ->
+        Query.PhotoQueryMsg.GetResponse (Ok gotPhotos) ->
             ( gotPhotos, Cmd.none )
 
-        GetResponse (Err _) ->
+        Query.PhotoQueryMsg.GetResponse (Err _) ->
             -- Error握りつぶしたらあかんで
             ( [], Cmd.none )
