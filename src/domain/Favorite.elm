@@ -1,10 +1,12 @@
-module Domain.Favorite exposing (Favorite, FavoriteColor, FavoriteCount, FavoriteIcon, countUp, create)
+module Domain.Favorite exposing (Color, Count, Favorite, Icon, countUp, create)
+
+-- Model
 
 
 type alias Favorite =
-    { count : FavoriteCount
-    , icon : FavoriteIcon
-    , color : FavoriteColor
+    { count : Count
+    , icon : Icon
+    , color : Color
     }
 
 
@@ -14,6 +16,10 @@ init =
     , icon = icon 0
     , color = color 0
     }
+
+
+
+-- Business logic
 
 
 create : Favorite
@@ -34,7 +40,7 @@ countUp favorite =
     }
 
 
-icon : FavoriteCount -> FavoriteIcon
+icon : Count -> Icon
 icon count =
     case count > 0 of
         False ->
@@ -44,7 +50,7 @@ icon count =
             "★"
 
 
-color : FavoriteCount -> FavoriteColor
+color : Count -> Color
 color count =
     case count > 0 of
         False ->
@@ -54,13 +60,13 @@ color count =
             "PaleVioletRed"
 
 
-type alias FavoriteCount =
+type alias Count =
     Int
 
 
-type alias FavoriteIcon =
+type alias Icon =
     String
 
 
-type alias FavoriteColor =
+type alias Color =
     String
