@@ -1,55 +1,101 @@
-module Main exposing (init, main, subscriptions, view)
+module Main exposing (main)
 
 import Browser
 import Domain.Photo as Photo exposing (Photo)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Model as MainModel exposing (Model, create)
-import Msg as MainMsg exposing (..)
 import Page.Photo
-import Query.PhotoQueryMsg as PhotoQueryMsg exposing (..)
-import Query.PhotoQueryUpdate as PhotoQueryUpdate exposing (update)
+import Query.PhotoQuery as PhotoQuery
 import Reference exposing (Reference)
 import Reference.List
-import Update as MainUpdate exposing (update)
 
 
 main =
     Browser.element
         { init = init
         , view = view
-        , update = MainUpdate.update
+        , update = update
         , subscriptions = subscriptions
         }
 
 
-init : () -> ( MainModel.Model, Cmd MainMsg.Msg )
+init : () -> ( Model, Cmd Msg )
 init () =
-    let
-        msg =
-            MainMsg.MapToPhotoQuery PhotoQueryMsg.GetRequest
-
-        model =
-            MainModel.create
-    in
-    MainUpdate.update msg model
+    update (MapToPhotoQuery PhotoQuery.GetRequest) create
 
 
 
--- SUBSCRIPTIONS
+-- Model
 
 
-subscriptions : MainModel.Model -> Sub MainMsg.Msg
+type alias Model =
+    { photos : List Photo }
+
+
+initModel : Model
+initModel =
+    { photos = [] }
+
+
+create : Model
+create =
+    initModel
+
+
+
+-- Update
+
+
+type Msg
+    = -- View
+      MapToPhotoPage (Reference Photo (List Photo)) Photo.Msg
+      -- Query
+    | MapToPhotoQuery PhotoQuery.Msg
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        -- View
+        MapToPhotoPage refPhoto photoMsg ->
+            let
+                ( resultPhoto, resultCmd ) =
+                    Photo.update photoMsg (Reference.this refPhoto)
+
+                modifyPhotos : Photo -> Reference Photo (List Photo) -> List Photo
+                modifyPhotos modifiedEntity refEntity =
+                    Reference.root <| Reference.modify (\discard -> modifiedEntity) refEntity
+
+                resultPhotos : List Photo
+                resultPhotos =
+                    modifyPhotos resultPhoto refPhoto
+            in
+            ( { model | photos = resultPhotos }, Cmd.map (MapToPhotoPage refPhoto) resultCmd )
+
+        -- Query
+        MapToPhotoQuery queryMsg ->
+            let
+                ( gotPhotos, resultCmd ) =
+                    PhotoQuery.update queryMsg
+            in
+            ( { model | photos = gotPhotos }, Cmd.map MapToPhotoQuery resultCmd )
+
+
+
+-- Subscriptions
+
+
+subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
 
 
 
--- VIEW
+-- View
 
 
-view : MainModel.Model -> Html MainMsg.Msg
+view : Model -> Html Msg
 view model =
     let
         headerAttribute : List (Attribute msg)
@@ -73,10 +119,10 @@ view model =
             , style "margin" "0"
             ]
 
-        photoViews : List Photo -> Html MainMsg.Msg
+        photoViews : List Photo -> Html Msg
         photoViews photos =
             let
-                mappedPhotoViews : Html MainMsg.Msg
+                mappedPhotoViews : Html Msg
                 mappedPhotoViews =
                     Reference.top photos
                         |> Reference.List.unwrap mappedPhotoView
@@ -88,11 +134,10 @@ view model =
                     , style "margin" "65px auto"
                     ]
 
-                mappedPhotoView : Reference Photo (List Photo) -> Html MainMsg.Msg
+                mappedPhotoView : Reference Photo (List Photo) -> Html Msg
                 mappedPhotoView refPhoto =
-                    Reference.this refPhoto
-                        |> Page.Photo.view
-                        |> Html.map (MainMsg.MapToPhoto refPhoto)
+                    Page.Photo.view (Reference.this refPhoto) Photo.CountUpFavorite
+                        |> Html.map (MapToPhotoPage refPhoto)
             in
             mappedPhotoViews
     in

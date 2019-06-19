@@ -1,11 +1,15 @@
-module Domain.Photo exposing (Photo, PhotoImage, PhotoTitle, countUpFavorite, create)
+module Domain.Photo exposing (Image, Msg(..), Photo, Title, create, update)
 
 import Domain.Favorite as Favorite exposing (Favorite)
 
 
+
+-- Model
+
+
 type alias Photo =
-    { title : PhotoTitle
-    , image : PhotoImage
+    { title : Title
+    , image : Image
     , favorite : Favorite
     }
 
@@ -18,7 +22,34 @@ init =
     }
 
 
-create : PhotoTitle -> PhotoImage -> Photo
+
+-- Update
+
+
+type Msg
+    = -- Infrastructure case
+      -- View case
+      CountUpFavorite
+
+
+update : Msg -> Photo -> ( Photo, Cmd Msg )
+update msg entity =
+    case msg of
+        -- Infrastructure case
+        -- View case
+        CountUpFavorite ->
+            let
+                fovoriteCountUppedEntity =
+                    countUpFavorite entity
+            in
+            ( fovoriteCountUppedEntity, Cmd.none )
+
+
+
+-- Business logic
+
+
+create : Title -> Image -> Photo
 create title image =
     { init
         | title = title
@@ -38,9 +69,9 @@ countUpFavorite photo =
     }
 
 
-type alias PhotoTitle =
+type alias Title =
     String
 
 
-type alias PhotoImage =
+type alias Image =
     String
