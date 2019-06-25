@@ -1,7 +1,7 @@
 module Adapter.Helper exposing (jsonResolver)
 
 import Http
-import Json.Decode as Decode
+import Json.Decode
 
 
 
@@ -9,7 +9,7 @@ import Json.Decode as Decode
 -- https://qiita.com/ababup1192/items/b03fce202e1018bc4992
 
 
-jsonResolver : Decode.Decoder a -> Http.Resolver Http.Error a
+jsonResolver : Json.Decode.Decoder a -> Http.Resolver Http.Error a
 jsonResolver decoder =
     Http.stringResolver <|
         \response ->
@@ -27,9 +27,9 @@ jsonResolver decoder =
                     Err (Http.BadStatus metadata.statusCode)
 
                 Http.GoodStatus_ metadata body ->
-                    case Decode.decodeString decoder body of
+                    case Json.Decode.decodeString decoder body of
                         Ok value ->
                             Ok value
 
                         Err err ->
-                            Err (Http.BadBody (Decode.errorToString err))
+                            Err (Http.BadBody (Json.Decode.errorToString err))

@@ -1,7 +1,5 @@
 module Domain.Favorite exposing (Color, Count, Favorite, Icon, countUp, create)
 
--- Model
-
 
 type alias Favorite =
     { count : Count
@@ -16,10 +14,6 @@ init =
     , icon = icon 0
     , color = color 0
     }
-
-
-
--- Business logic
 
 
 create : Favorite
