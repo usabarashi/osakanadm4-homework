@@ -40,7 +40,5 @@ References
 - [OsakaNa DM 4 - Elmを教えてもらう](https://osakanadm.connpass.com/event/128028/)
 - [backpaper0/osakanadm4](https://github.com/backpaper0/osakanadm4)
 - [backpaper0/osakanadm-api](https://hub.docker.com/r/backpaper0/osakanadm-api)
-- [一覧のViewを自在に操る elm-reference](https://qiita.com/arowM/items/6eaadc5f43880e1f3787)
-- [elm-reference](https://package.elm-lang.org/packages/arowM/elm-reference/latest)
 - [公式ドキュメント翻訳プロジェクト](https://guide.elm-lang.jp/)
 - [elm](https://elm-lang.org/)
